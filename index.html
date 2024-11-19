@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación de Boda</title>
+    <!-- Importación de la fuente Lobster de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wordcloud2.js/1.0.6/wordcloud2.min.js"></script>
+    <style>
+        /* Estilos básicos */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Ocultar controles del reproductor de audio */
+        audio {
+            display: none;
+        }
+
+        .intro, .info, .wordcloud-container, .countdown-timer, .location, .additional-info, .gift, .rsvp {
+            text-align: center;
+            padding: 20px;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+
+        /* Sección de introducción con animación */
+        .intro {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Imagen de fondo ajustada al alto de pantalla */
+        .intro img {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+            opacity: 0;
+            animation: fadeInImage 5s forwards;
+        }
+
+        /* Recuadro y estilo para el título y el texto adicional */
+        .intro .text-box {
+            position: absolute;
+            bottom: 10px; /* 10 px desde el borde inferior de la imagen */
+            left: 50%;
+            transform: translateX(-50%);
+            color: #556B2F;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            opacity: 0;
+            animation: fadeInText 3s 5s forwards;
+            z-index: 1;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .intro .text-box h1 {
+            font-size: 2.5em;
+            margin: 0;
+            font-family: 'Lobster', cursive;
+        }
+
+        .intro .text-box p {
+            font-size: 1.2em;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        /* Efecto de desvanecimiento para la imagen */
+        @keyframes fadeInImage {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Efecto de desvanecimiento para el texto */
+        @keyframes fadeInText {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Estilos para el contenedor de la nube de palabras */
+        .wordcloud-container {
+            width: 100%;						 
+            height: 780px;
+            position: relative;
+        }
+		
+        /* Estilos para las imágenes de cada sección */
+        .section-image {
+            width: 50%;
+            max-width: 250px;
+            height: auto;
+            margin-top: 10px;
+            border-radius: 8px;
+        }
+
+        /* Estilos para el título y el contador regresivo */
+        .countdown-title {
+            font-size: 2em;
+            color: #556B2F;
+            font-family: 'Lobster', cursive;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-timer .time-box {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 80px;
+            flex: 1 1 80px;
+            max-width: 100px;
+        }
+
+        .countdown-timer .time-box h3 {
+            font-size: 2em;
+            margin: 0;
+            color: #556B2F;
+            font-family: 'Lobster', cursive;
+        }
+
+        .countdown-timer .time-box span {
+            font-size: 1em;
+            color: #333;
+        }
+
+        /* Resto de las secciones */
+        .info h2, .location h2, .additional-info h2, .gift h2, .rsvp h2, .wordcloud-container h2{
+            font-size: 2em;
+            color: #556B2F;
+            font-family: 'Lobster', cursive;
+        }
+
+        .info p, .location p, .additional-info p, .gift p, .rsvp p {
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .location button, .rsvp button {
+            font-size: 1em;
+            padding: 10px 20px;
+            background-color: #DAA520;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .location button:hover, .rsvp button:hover {
+            background-color: #B8860B;
+        }
+
+        /* Estilos para el footer */
+        footer {
+            background-color: #DAA520; /* Fondo dorado */
+            color: #ffffff;
+            padding: 40px; /* Aumenta la altura del footer */
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            font-family: 'Lobster', cursive;
+        }
+
+        footer div {
+            margin-bottom: 5px; /* Espacio entre las dos líneas */
+        }
+		
+		/* Estilos para el botón de iniciar audio */
+        .play-audio-button {
+            display: none; /* Oculto por defecto */
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #DAA520;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            z-index: 1000;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Estilos responsivos para pantallas pequeñas */
+        @media (max-width: 600px) {
+            .intro .text-box h1 {
+                font-size: 1.8em;
+            }
+
+            .intro .text-box p {
+                font-size: 1em;
+            }
+
+            .countdown-timer .time-box {
+                padding: 15px;
+                width: 70px;
+            }
+
+            .countdown-timer .time-box h3 {
+                font-size: 1.5em;
+            }
+
+            .info h2, .location h2, .additional-info h2, .gift h2, .rsvp h2, .wordcloud-container h2, .countdown-title {
+                font-size: 1.5em;
+            }
+
+            footer {
+                font-size: 1em;
+                padding: 30px;
+            }
+        }
+		
+		/* Estilos para la galería de fotos */
+        .photo-gallery h2 {
+            font-size: 2em;
+            color: #556B2F;
+            font-family: 'Lobster', cursive;
+            margin-bottom: 20px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-grid img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Reproductor de música en segundo plano con retraso -->
+    <audio id="background-audio" loop>
+        <source src="FM2TM.mp3" type="audio/mp3">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <!-- Botón para iniciar el audio -->
+    <button class="play-audio-button" onclick="playAudio()">Iniciar Música</button>
+	
+    <!-- Intro con imagen, título y texto explicativo animados -->
+    <div class="intro">
+        <img src="PuungIntro.jpg" alt="Foto de introducción de la boda">
+        <div class="text-box">
+            <h1>¡Nos Casamos!</h1>
+            <p>Después de 12 años juntos, nos llena de alegría celebrar nuestra unión rodeados de quienes han sido parte de nuestra historia. Nos encantaría que nos acompañen en este momento especial y sean testigos del inicio de este nuevo capítulo.</p>
+        </div>
+    </div>
+
+    <!-- Contenedor de la nube de palabras -->
+    <div class="wordcloud-container fade-in">
+        <h2>Palabras que definen nuestra historia</h2>
+        <img src="Heart.png" alt="Imagen de la nube de palabras" class="section-image"><br>
+        <canvas id="wordcloud" width="600" height="400"></canvas>
+    </div>
+
+    <!-- Título del contador regresivo -->
+    <h2 class="countdown-title">Cuenta regresiva para el gran día</h2>
+
+    <!-- Contenedor del contador regresivo con recuadros individuales -->
+    <div class="countdown-timer">
+        <div class="time-box">
+            <h3 id="days">0</h3>
+            <span>Días</span>
+        </div>
+        <div class="time-box">
+            <h3 id="hours">0</h3>
+            <span>Horas</span>
+        </div>
+        <div class="time-box">
+            <h3 id="minutes">0</h3>
+            <span>Minutos</span>
+        </div>
+        <div class="time-box">
+            <h3 id="seconds">0</h3>
+            <span>Segundos</span>
+        </div>
+    </div>
+
+    <!-- Información de la boda -->
+    <div class="info fade-in">
+        <h2>Detalles de la Boda</h2>
+        <img src="Wedding.png" alt="Imagen de detalles de la boda" class="section-image">
+        <p><strong>Fecha:</strong> 21 de diciembre de 2024</p>
+        <p><strong>Hora:</strong> 4:00 PM</p>
+    </div>
+
+    <!-- Sección de Ubicación -->
+    <div class="location fade-in">
+        <h2>Ceremonia y Recepción</h2>
+        <img src="Location.png" alt="Imagen de ubicación" class="section-image">
+        <p><strong>Lugar:</strong> Villa Sara</p>
+        <p>Cll 246 #7 -17 Bogotá, Colombia</p>
+        <button onclick="window.location.href='https://maps.app.goo.gl/on41N2xHi9Kwva2u5'">Cómo llegar</button>
+    </div>
+
+    <!-- Información Adicional -->
+    <div class="additional-info fade-in">
+        <h2>Información Adicional</h2>
+        <img src="Dress.png" alt="Imagen adicional" class="section-image">
+        <p><strong>Código de vestimenta:</strong> Formal</p>
+        <p>Se reservan los colores <strong>Blanco</strong> y <strong>Verde</strong>.</p>
+    </div>
+
+    <!-- Regalo: Lluvia de sobres -->
+    <div class="gift fade-in">
+        <h2>Regalo</h2>
+        <img src="Gift.png" alt="Imagen de regalos" class="section-image">
+        <p>Para quienes deseen acompañarnos con un presente, hemos elegido tener una "Lluvia de Sobres".</p>
+        <p>Gracias por ayudarnos a empezar esta nueva etapa de nuestras vidas.</p>
+    </div>
+
+    <!-- Confirmación de asistencia -->
+    <div class="rsvp fade-in">
+        <h2>Confirmar Asistencia</h2>
+        <img src="RSVP.png" alt="Imagen de confirmación de asistencia" class="section-image">
+        <p>Por favor, confirma tu asistencia antes del 1 de diciembre.</p>
+        <button onclick="window.location.href='https://wa.me/573203887392?text=Hola,%20me%20gustaría%20confirmar%20mi%20asistencia%20a%20la%20boda.'">
+            Confirmar Asistencia
+        </button>
+    </div>
+	    <!-- Nueva sección de galería de fotos -->
+    <div class="photo-gallery fade-in">
+        <h2>Nuestros recuerdos</h2>
+        <div class="gallery-grid">
+            <!-- Añade tus imágenes aquí -->
+            <img src="Fotos/1.jpg" alt="Recuerdo de boda 1">
+            <img src="Fotos/2.jpg" alt="Recuerdo de boda 2">
+            <img src="Fotos/3.jpg" alt="Recuerdo de boda 3">
+            <img src="Fotos/4.jpg" alt="Recuerdo de boda 4">
+            <img src="Fotos/5.jpg" alt="Recuerdo de boda 5">
+			<img src="Fotos/6.jpg" alt="Recuerdo de boda 6">
+            <!-- Puedes agregar más imágenes copiando esta línea y actualizando el nombre del archivo -->
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer>
+        <div>#PaitoYLean</div>
+        <div>2024</div>
+    </footer>
+
+    <script>
+        // Configuración del contador
+        const weddingDate = new Date("December 21, 2024 16:00:00").getTime();
+
+        const countdownInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerHTML = days;
+            document.getElementById("hours").innerHTML = hours;
+            document.getElementById("minutes").innerHTML = minutes;
+            document.getElementById("seconds").innerHTML = seconds;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("days").innerHTML = "0";
+                document.getElementById("hours").innerHTML = "0";
+                document.getElementById("minutes").innerHTML = "0";
+                document.getElementById("seconds").innerHTML = "0";
+            }
+        }, 1000);
+
+        // Función personalizada para la forma de corazón
+        function miCorazon(theta) {
+            var max = 76;
+            var leng = [69,70,70,70,71,70,70,71,70,70,70,71,70,70,71,70,70,71,72,71,71,71,72,71,71,72,71,71,72,72,71,72,71,71,72,72,73,71,71,71,71,72,71,71,70,71,72,70,71,70,70,69,70,69,70,69,69,68,68,68,67,66,67,66,65,64,65,64,63,62,63,62,63,61,60,60,59,60,59,60,58,57,58,56,57,55,56,54,55,54,53,54,52,52,53,50,51,49,49,50,47,48,46,45,44,43,44,45,41,42,43,41,39,40,39,38,39,36,35,36,34,30,31,32,32,30,31,29,30,31,28,26,27,28,29,26,27,28,25,26,27,28,24,25,26,23,24,25,26,22,23,24,25,21,22,23,24,25,20,21,22,23,20,19,21,22,22,20,18,17,19,21,20,22,23,22,21,24,24,22,23,25,24,26,26,26,28,27,29,28,30,31,32,32,34,35,36,37,39,40,41,42,43,44,44,46,46,47,47,48,47,48,48,49,50,51,50,51,52,51,52,53,52,54,54,55,56,57,56,57,58,59,58,59,60,61,61,62,63,61,62,63,62,63,61,62,63,62,63,64,65,66,67,68,67,67,68,67,68,69,68,69,69,69,69,70,68,69,70,68,69,70,69,69,69,69,70,69,69,70,70,70,70,71,71,70,70,71,70,70,70,70,69,69,70,69,69,69,69,69,69,70,69,69,70,69,69,70,69,69,69,70,69,69,70,69,69,70,69,69,69,70,69,69,70,68,68,69,68,68,69,68,67,68,65,66,65,66,65,65,64,64,63,63,64,62,63,64,63,61,62,63,62,61,61,62,61,62,61,61,61,62,60,61,60,61,61,61,60,61,60,61,60,59,60,59,58,59,58,59,58,59,58,59,57,58,57,58,57,58,56,57,56,57,58,56,56,56,57,55,56,56,57,56,57,55,56,57,55,56,56,57,56,57,55,56,56,57,56,57,58,59,57,57,58,59,57,57,58,59,57,58,58,59,59,59,59,60,60,61,60,61,61,62,63,63,64,63,64,65,64,65,65,66,68,68,68,69,70,70,71,71,71,72,72,73,74,75,75,75,75,76,74,74,74,75,74,74,74,75,73,72,73,72,70,71,68,69,66,67,66,66,67,64,65,63,64,64,64,63,63,61,62,62,62,61,61,59,61,59,60,59,58,57,58,58,57,58,57,58,57,58,57,56,57,56,57,56,55,56,57,56,56,56,57,56,56,55,54,55,56,54,55,56,55,56,55,55,54,55,56,55,55,56,55,56,56,55,56,54,55,54,55,56,55,55,55,56,55,56,55,55,55,56,57,56,57,56,57,56,57,56,57,57,58,58,59,57,58,58,59,60,59,60,60,60,61,60,61,61,62,62,63,61,62,62,62,63,63,64,63,63,63,64,65,65,66,65,65,66,67,68,68,69,70,69,70,71,72];
+            return leng[(theta / (2 * Math.PI)) * leng.length | 0] / max;
+        }
+
+        // Crear y agregar la matriz 'amor' a 'wordArray'
+        const wordArray = [
+            ["Familia", 5], ["Unión", 5], ["Boda", 7],
+            ["Alegría", 5], ["Celebración", 5], ["Compromiso", 5], ["PaitoYLean", 8],
+            ["Felicidad", 5], ["Juntos", 5], ["Para Siempre", 3], ["Aventura", 4],
+            ["Lego", 3], ["Puung", 3], ["Conejo", 5], ["Monita", 5], ["Gatos", 5], ["Ghibli", 3],
+            ["Tito", 3], ["Rita", 3], ["Naturaleza", 3], ["Reir", 3], ["Monk", 2], ["trabajo remoto", 3]
+        ];
+        const amor = Array(200).fill(['Amor', 1]);
+        wordArray.push(...amor);
+
+        // Inicializar la nube de palabras en forma personalizada
+        WordCloud(document.getElementById('wordcloud'), {
+            list: wordArray,
+            color: function() {
+                return (Math.random() > 0.5) ? '#556B2F' : '#DAA520';
+            },
+            backgroundColor: 'transparent',
+            gridSize: 4,
+            weightFactor: 8,
+            rotateRatio: 0.5,
+            shape: miCorazon,
+            drawOutOfBound: true,
+            shrinkToFit: true
+        });
+
+        // Mostrar el botón para iniciar el audio después de 5 segundos
+        setTimeout(() => {
+            document.querySelector('.play-audio-button').style.display = 'block';
+        }, 5000);
+
+        // Función para reproducir el audio cuando el usuario hace clic
+        function playAudio() {
+            const audio = document.getElementById('background-audio');
+            audio.play();
+            document.querySelector('.play-audio-button').style.display = 'none';
+        };
+    </script>
+</body>
+</html>
