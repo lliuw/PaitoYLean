@@ -50,7 +50,7 @@
             height: 100vh;
             object-fit: cover;
             opacity: 0;
-            animation: fadeInImage 3s forwards;
+            
         }
 
         /* Recuadro y estilo para el título y el texto adicional */
@@ -66,7 +66,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             text-align: center;
             opacity: 0;
-            animation: fadeInText 5s 7s forwards;
+            
             z-index: 1;
             width: 90%;
             max-width: 600px;
@@ -90,7 +90,7 @@
             max-width: 600px;
 			margin-top: 0;
 			margin-bottom: 0;
-			animation: fadeInText 3s 4s forwards;
+			
         }
 		
 		.intro .title-box h1 {
@@ -290,16 +290,54 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
+		
+		.content{
+			opacity: 0;
+		}
+		.show{
+			opacity: 1;
+		}
+		
+		/* Estilos para el botón de iniciar */
+        .start-button {
+            position: fixed;
+			top: 50%;
+			left: 50%;
+			/* bring your own prefixes */
+			transform: translate(-50%, -50%);
+            padding: 10px 20px;
+            background-color: #DAA520;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            z-index: 1000;
+            font-family: Arial, sans-serif;        
+        }
+		/* Mostrar imagen */
+        .AnimateImg1 {
+            animation: fadeInImage 3s forwards;
+        }
+        /* Mostrar mensaje */
+        .AnimateMsg3 {
+            animation: fadeInText 5s 7s forwards;
+        }
+		/* mostrar titulo*/
+		.AnimateTitle2 {
+			animation: fadeInText 3s 4s forwards;
+        }
     </style>
 </head>
 <body>
-    <!-- Intro con imagen, título y texto explicativo animados -->
+    <div class="content">
+	<!-- Intro con imagen, título y texto explicativo animados -->
     <div class="intro">
-        <div class="title-box">
+        <div class="title-box an2">
             <h1>-Paito y Lean-</h1>
         </div>
-		<img src="Intro.jpg" alt="Foto de introducción de la boda">
-		<div class="message-box">
+		<img src="Intro.jpg" alt="Foto de introducción de la boda" class="an1">
+		<div class="message-box an3">
             <h1>¡Nos Casamos!</h1>
             <p>Después de 12 años juntos, nos llena de alegría celebrar nuestra unión rodeados de quienes han sido parte de nuestra historia. Nos encantaría que nos acompañen en este momento especial y sean testigos del inicio de este nuevo capítulo.</p>
         </div>
@@ -309,11 +347,8 @@
         <source src="FM2TM.mp3" type="audio/mp3">
         Tu navegador no soporta el elemento de audio.
     </audio>
-	<!-- Botón para iniciar el audio -->
-    <button class="play-audio-button" onclick="playAudio()">Iniciar Música</button>
-	
     <!-- Contenedor de la nube de palabras -->
-    <div class="wordcloud-container fade-in">
+    <div class="wordcloud-container ">
         <h2>Palabras que definen nuestra historia</h2>
         <img src="Heart.png" alt="Imagen de la nube de palabras" class="section-image"><br>
         <canvas id="wordcloud" width="550" height="400"></canvas>
@@ -343,7 +378,7 @@
     </div>
 
     <!-- Información de la boda -->
-    <div class="info fade-in">
+    <div class="info ">
         <h2>Detalles de la Boda</h2>
         <img src="Wedding.png" alt="Imagen de detalles de la boda" class="section-image">
         <p><strong>Fecha:</strong> 21 de diciembre de 2024</p>
@@ -351,7 +386,7 @@
     </div>
 
     <!-- Sección de Ubicación -->
-    <div class="location fade-in">
+    <div class="location ">
         <h2>Ceremonia y Recepción</h2>
         <img src="Location.png" alt="Imagen de ubicación" class="section-image">
         <p><strong>Lugar:</strong> Villa Sara</p>
@@ -360,7 +395,7 @@
     </div>
 
     <!-- Información Adicional -->
-    <div class="additional-info fade-in">
+    <div class="additional-info ">
         <h2>Información Adicional</h2>
         <img src="Dress.png" alt="Imagen adicional" class="section-image">
         <p><strong>Código de vestimenta:</strong> Formal</p>
@@ -368,7 +403,7 @@
     </div>
 
     <!-- Regalo: Lluvia de sobres -->
-    <div class="gift fade-in">
+    <div class="gift ">
         <h2>Regalo</h2>
         <img src="Gift.png" alt="Imagen de regalos" class="section-image">
         <p>Para quienes deseen acompañarnos con un presente, hemos elegido tener una "Lluvia de Sobres".</p>
@@ -376,7 +411,7 @@
     </div>
 
     <!-- Confirmación de asistencia -->
-    <div class="rsvp fade-in">
+    <div class="rsvp ">
         <h2>Confirmar Asistencia</h2>
         <img src="RSVP.png" alt="Imagen de confirmación de asistencia" class="section-image">
         <p>Por favor, confirma tu asistencia antes del 1 de diciembre.</p>
@@ -385,7 +420,7 @@
         </button>
     </div>
 	    <!-- Nueva sección de galería de fotos -->
-    <div class="photo-gallery fade-in">
+    <div class="photo-gallery ">
         <h2>Nuestros recuerdos</h2>
         <div class="gallery-grid">
             <!-- Añade tus imágenes aquí -->
@@ -413,7 +448,11 @@
         <div>#PaitoYLean</div>
         <div>2024</div>
     </footer>
-
+	</div>
+	<div>
+		<!-- Boton que da inicio a la musica y muestra el sitio -->
+		<button class="start-button" onclick="playAudio()">Iniciar</button>
+	</div>
     <script>
         // Configuración del contador
         const weddingDate = new Date("December 21, 2024 16:00:00").getTime();
@@ -474,17 +513,31 @@
             shrinkToFit: true
         });
 
-        // Mostrar el botón para iniciar el audio después de 5 segundos
-        setTimeout(() => {
-            document.querySelector('.play-audio-button').style.display = 'block';
-        }, 5000);
+        
 
         // Función para reproducir el audio cuando el usuario hace clic
         function playAudio() {
             const audio = document.getElementById('background-audio');
             audio.play();
-            document.querySelector('.play-audio-button').style.display = 'none';
+            document.querySelector('.start-button').style.display = 'none';
+			document.querySelector('.content').style.opacity = '1';
+			
+			//Funcion para mostrar el contenido
+			var div = document.querySelector(".content");
+			
+			div.classList.add("show");
+			
+			var an1 = document.querySelector(".an1");
+			var an2 = document.querySelector(".an2");
+			var an3 = document.querySelector(".an3");
+			an1.classList.add("AnimateImg1");
+			an2.classList.add("AnimateTitle2");
+			an3.classList.add("AnimateMsg3");
+			
         };
+		
+		
     </script>
+	
 </body>
 </html>
