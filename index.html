@@ -40,6 +40,7 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
+			padding: 0px;
         }
 
         /* Imagen de fondo ajustada al alto de pantalla */
@@ -49,11 +50,11 @@
             height: 100vh;
             object-fit: cover;
             opacity: 0;
-            animation: fadeInImage 5s forwards;
+            animation: fadeInImage 3s forwards;
         }
 
         /* Recuadro y estilo para el título y el texto adicional */
-        .intro .text-box {
+        .intro .message-box {
             position: absolute;
             bottom: 10px; /* 10 px desde el borde inferior de la imagen */
             left: 50%;
@@ -65,19 +66,43 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             text-align: center;
             opacity: 0;
-            animation: fadeInText 3s 5s forwards;
+            animation: fadeInText 5s 7s forwards;
             z-index: 1;
             width: 90%;
             max-width: 600px;
         }
+		
+		/* titulo*/
+		.title-box {
+            position: absolute;
+            top: 10px; /* 10 px desde el borde inferior de la imagen */
+            left: 50%;
+            transform: translateX(-50%);
+            color: #556B2F;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            opacity: 0;
+            z-index: 1;
+            width: 90%;
+            max-width: 600px;
+			font-size: 2.5em;
+            margin: 0;
+			margin-top: 0;
+			margin-bottom: 0;
+            font-family: 'Lobster', cursive;
+			animation: fadeInText 3s 4s forwards;
+        }
 
-        .intro .text-box h1 {
+        .intro .message-box h1 {
             font-size: 2.5em;
             margin: 0;
             font-family: 'Lobster', cursive;
         }
 
-        .intro .text-box p {
+        .intro .message-box p {
             font-size: 1.2em;
             margin-top: 10px;
             color: #333;
@@ -215,11 +240,11 @@
 
         /* Estilos responsivos para pantallas pequeñas */
         @media (max-width: 600px) {
-            .intro .text-box h1 {
+            .intro .message-box h1 {
                 font-size: 1.8em;
             }
 
-            .intro .text-box p {
+            .intro .message-box p {
                 font-size: 1em;
             }
 
@@ -265,30 +290,30 @@
     </style>
 </head>
 <body>
-
-    <!-- Reproductor de música en segundo plano con retraso -->
-    <audio id="background-audio" loop>
-        <source src="FM2TM.mp3" type="audio/mp3">
-        Tu navegador no soporta el elemento de audio.
-    </audio>
-
-    <!-- Botón para iniciar el audio -->
-    <button class="play-audio-button" onclick="playAudio()">Iniciar Música</button>
-	
     <!-- Intro con imagen, título y texto explicativo animados -->
     <div class="intro">
-        <img src="PuungIntro.jpg" alt="Foto de introducción de la boda">
-        <div class="text-box">
+        <div class="title-box">
+            <h1>-Paito y Lean-</h1>
+        </div>
+		<img src="Intro.jpg" alt="Foto de introducción de la boda">
+		<div class="message-box">
             <h1>¡Nos Casamos!</h1>
             <p>Después de 12 años juntos, nos llena de alegría celebrar nuestra unión rodeados de quienes han sido parte de nuestra historia. Nos encantaría que nos acompañen en este momento especial y sean testigos del inicio de este nuevo capítulo.</p>
         </div>
     </div>
-
+	<!-- Reproductor de música en segundo plano con retraso -->
+    <audio id="background-audio" loop>
+        <source src="FM2TM.mp3" type="audio/mp3">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+	<!-- Botón para iniciar el audio -->
+    <button class="play-audio-button" onclick="playAudio()">Iniciar Música</button>
+	
     <!-- Contenedor de la nube de palabras -->
     <div class="wordcloud-container fade-in">
         <h2>Palabras que definen nuestra historia</h2>
         <img src="Heart.png" alt="Imagen de la nube de palabras" class="section-image"><br>
-        <canvas id="wordcloud" width="600" height="400"></canvas>
+        <canvas id="wordcloud" width="550" height="400"></canvas>
     </div>
 
     <!-- Título del contador regresivo -->
@@ -319,7 +344,7 @@
         <h2>Detalles de la Boda</h2>
         <img src="Wedding.png" alt="Imagen de detalles de la boda" class="section-image">
         <p><strong>Fecha:</strong> 21 de diciembre de 2024</p>
-        <p><strong>Hora:</strong> 4:00 PM</p>
+        <p><strong>Hora:</strong> 4:30 PM</p>
     </div>
 
     <!-- Sección de Ubicación -->
@@ -367,6 +392,16 @@
             <img src="Fotos/4.jpg" alt="Recuerdo de boda 4">
             <img src="Fotos/5.jpg" alt="Recuerdo de boda 5">
 			<img src="Fotos/6.jpg" alt="Recuerdo de boda 6">
+			<img src="Fotos/7.jpg" alt="Recuerdo de boda 7">
+			<img src="Fotos/8.jpg" alt="Recuerdo de boda 8">
+			<img src="Fotos/9.jpg" alt="Recuerdo de boda 9">
+			<img src="Fotos/10.jpg" alt="Recuerdo de boda 10">
+			<img src="Fotos/11.jpg" alt="Recuerdo de boda 11">
+			<img src="Fotos/12.jpg" alt="Recuerdo de boda 12">
+			<img src="Fotos/13.jpg" alt="Recuerdo de boda 13">
+			<img src="Fotos/14.jpg" alt="Recuerdo de boda 14">
+			<img src="Fotos/15.jpg" alt="Recuerdo de boda 15">
+			<img src="Fotos/16.jpg" alt="Recuerdo de boda 16">
             <!-- Puedes agregar más imágenes copiando esta línea y actualizando el nombre del archivo -->
         </div>
     </div>
