@@ -327,6 +327,9 @@
 		.AnimateTitle2 {
 			animation: fadeInText 3s 4s forwards;
         }
+		.wordcloud-canvas{
+			width: 90%;
+		}
     </style>
 </head>
 <body>
@@ -351,7 +354,9 @@
     <div class="wordcloud-container ">
         <h2>Palabras que definen nuestra historia</h2>
         <img src="Heart.png" alt="Imagen de la nube de palabras" class="section-image"><br>
-        <canvas id="wordcloud" width="550" height="400"></canvas>
+        <div>
+			<canvas id="wordcloud" width="550" height="400" class="wordcloud-canvas"></canvas>
+		</div>
     </div>
 
     <!-- Título del contador regresivo -->
